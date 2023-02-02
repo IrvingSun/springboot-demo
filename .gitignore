@@ -7,3 +7,4 @@
 .idea/workspace.xml
 *.iml
 .DS_Store
+target/classes/cn/sunway/Application.class
