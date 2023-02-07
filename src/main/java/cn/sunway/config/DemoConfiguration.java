@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2023/2/7
  */
 @Configuration
-@ConditionalOnProperty(name = "debug",havingValue = "false")
+@ConditionalOnProperty(name = "demo.object.enable",havingValue = "true")
 public class DemoConfiguration {
 
     @Bean
