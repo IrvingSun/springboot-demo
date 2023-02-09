@@ -1,0 +1,10 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.sunway.config.DemoConfiguration
+
+# Initializers
+org.springframework.context.ApplicationContextInitializer=\
+cn.sunway.config.DemoApplicationContextInitializer
+
+# ExceptionReporter
+org.springframework.boot.SpringBootExceptionReporter=\
+  cn.sunway.config.MyExceptionReporter
