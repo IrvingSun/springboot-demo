@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(name = "demo.object.enable",havingValue = "true")
 public class DemoConfiguration {
 
-    @Bean
+    @Bean("demoString")
     public DemoObject demoString(){
         System.out.println("创建DemoObject");
         DemoObject obj = new DemoObject();
