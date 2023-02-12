@@ -4,6 +4,7 @@ import cn.sunway.config.DemoConfiguration;
 import cn.sunway.config.DemoObject;
 import cn.sunway.config.InnerDemoObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -47,7 +48,9 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class);
+        SpringApplication application = new SpringApplication(Application.class);
+//        application.setBannerMode(Banner.Mode.OFF); //关闭banner
+        application.run(args);
     }
 
 }

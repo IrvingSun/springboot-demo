@@ -8,3 +8,7 @@ cn.sunway.config.DemoApplicationContextInitializer
 # ExceptionReporter
 org.springframework.boot.SpringBootExceptionReporter=\
   cn.sunway.config.MyExceptionReporter
+
+# Fail
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+  cn.sunway.config.DemoFailureAnalyzer
