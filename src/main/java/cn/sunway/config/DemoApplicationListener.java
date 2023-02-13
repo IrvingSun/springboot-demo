@@ -10,11 +10,10 @@ import org.springframework.stereotype.Component;
  * @author sunw
  * @date 2023/2/8
  */
-@Component
 public class DemoApplicationListener implements ApplicationListener<SpringApplicationEvent> {
     @Override
     public void onApplicationEvent(SpringApplicationEvent event) {
-        System.out.println(event.getClass().getName());
+        System.out.println("======>接收到事件" + event.getClass().getName());
         if(event instanceof ApplicationStartedEvent){
             System.out.println("---->SpringBoot启动了");
         }

@@ -12,3 +12,6 @@ org.springframework.boot.SpringBootExceptionReporter=\
 # Fail
 org.springframework.boot.diagnostics.FailureAnalyzer=\
   cn.sunway.config.DemoFailureAnalyzer
+
+org.springframework.context.ApplicationListener=\
+  cn.sunway.config.DemoApplicationListener

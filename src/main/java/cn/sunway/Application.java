@@ -1,15 +1,13 @@
 package cn.sunway;
 
-import cn.sunway.config.DemoConfiguration;
+import cn.sunway.config.DemoApplicationListener;
+import cn.sunway.config.DemoBean;
 import cn.sunway.config.DemoObject;
-import cn.sunway.config.InnerDemoObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,19 +28,25 @@ public class Application {
     @Autowired(required = false)
     private DemoObject demoObject;
 
+    @Autowired
+    private DemoBean demoBean;
+
     @RequestMapping("/")
     String home(){
-        ApplicationContext context = new AnnotationConfigApplicationContext(DemoConfiguration.class);
-        DemoConfiguration demoConfiguration = context.getBean(DemoConfiguration.class);
+//        ApplicationContext context = new AnnotationConfigApplicationContext(DemoConfiguration.class);
+//        context.getBeanDefinitionNames();
+//        DemoConfiguration demoConfiguration = context.getBean(DemoConfiguration.class);
+//
+//        /**
+//         * 使用proxyBeanMethods=false的时候，以下三个对象不一样
+//         */
+//        InnerDemoObject innerDemoObject = demoConfiguration.demoString().getInnerDemoObject();
+//
+//        System.out.println("----->"+demoConfiguration.demoString().getInnerDemoObject());
+//        System.out.println("----->"+demoConfiguration.demoString().getInnerDemoObject());
+//        System.out.println("----->"+demoConfiguration.demoString().getInnerDemoObject());
 
-        /**
-         * 使用proxyBeanMethods=false的时候，以下三个对象不一样
-         */
-        InnerDemoObject innerDemoObject = demoConfiguration.demoString().getInnerDemoObject();
-
-        System.out.println("----->"+demoConfiguration.demoString().getInnerDemoObject());
-        System.out.println("----->"+demoConfiguration.demoString().getInnerDemoObject());
-        System.out.println("----->"+demoConfiguration.demoString().getInnerDemoObject());
+        System.out.println(demoBean.toString());
 
         return "Hello! Home page \n" + (Objects.isNull(demoObject) ? "未加载字符串" : demoObject.getTip() + "Object地址："+demoObject);
     }
@@ -51,6 +55,7 @@ public class Application {
         SpringApplication application = new SpringApplication(Application.class);
 //        application.setBannerMode(Banner.Mode.OFF); //关闭banner
         application.run(args);
+        application.setWebApplicationType(WebApplicationType.SERVLET);
     }
 
 }

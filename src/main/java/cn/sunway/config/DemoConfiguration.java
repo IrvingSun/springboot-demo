@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @author sunw
  * @date 2023/2/7
  */
-@Configuration(proxyBeanMethods= true)
+@Configuration(proxyBeanMethods= false)
 @ConditionalOnProperty(name = "demo.object.enable",havingValue = "true")
 public class DemoConfiguration {
 
