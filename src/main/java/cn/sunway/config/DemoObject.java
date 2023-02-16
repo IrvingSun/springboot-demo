@@ -1,10 +1,13 @@
 package cn.sunway.config;
 
+import org.springframework.beans.factory.annotation.Value;
+
 /**
  * @author sunw
  * @date 2023/2/7
  */
 public class DemoObject {
+    @Value("${demo.object.msg}")
     private String tip;
     private InnerDemoObject innerDemoObject;
 

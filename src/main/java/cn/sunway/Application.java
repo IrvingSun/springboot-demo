@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.Console;
 import java.util.Objects;
 
 /**
@@ -48,7 +49,7 @@ public class Application {
 
         System.out.println(demoBean.toString());
 
-        return "Hello! Home page \n" + (Objects.isNull(demoObject) ? "未加载字符串" : demoObject.getTip() + "Object地址："+demoObject);
+        return "Hello! Home page <br>" + (Objects.isNull(demoObject) ? "未加载字符串" : demoObject.getTip() + "<br> Object地址：" +demoObject);
     }
 
     public static void main(String[] args) {
@@ -56,6 +57,7 @@ public class Application {
 //        application.setBannerMode(Banner.Mode.OFF); //关闭banner
         application.run(args);
         application.setWebApplicationType(WebApplicationType.SERVLET);
+
     }
 
 }
