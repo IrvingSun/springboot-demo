@@ -1,5 +1,6 @@
 package cn.sunway;
 
+import cn.sunway.config.ConfigurationBean;
 import cn.sunway.config.DemoApplicationListener;
 import cn.sunway.config.DemoBean;
 import cn.sunway.config.DemoObject;
@@ -31,6 +32,8 @@ public class Application {
 
     @Autowired
     private DemoBean demoBean;
+    @Autowired
+    private ConfigurationBean configurationBean;
 
     @RequestMapping("/")
     String home(){
@@ -49,7 +52,7 @@ public class Application {
 
         System.out.println(demoBean.toString());
 
-        return "Hello! Home page <br>" + (Objects.isNull(demoObject) ? "未加载字符串" : demoObject.getTip() + "<br> Object地址：" +demoObject);
+        return "Hello! Home page <br>" + (Objects.isNull(demoObject) ? "未加载字符串" : demoObject.getTip() + "<br> Object地址：" +demoObject) +"<br>" + configurationBean;
     }
 
     public static void main(String[] args) {
