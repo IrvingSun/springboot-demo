@@ -10,9 +10,9 @@ import javax.annotation.PreDestroy;
  * @date 2023/2/13
  */
 @Component
-public class DemoBean implements DisposableBean{
+public class DemoDisposableBean implements DisposableBean{
 
-    public DemoBean(){
+    public DemoDisposableBean(){
         System.out.println("DemoBean ===> 初始化");
     }
 

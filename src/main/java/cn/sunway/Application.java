@@ -1,19 +1,18 @@
 package cn.sunway;
 
-import cn.sunway.config.ConfigurationBean;
-import cn.sunway.config.DemoApplicationListener;
-import cn.sunway.config.DemoBean;
-import cn.sunway.config.DemoObject;
+import cn.sunway.config.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Console;
 import java.util.Objects;
 
 /**
@@ -31,13 +30,17 @@ public class Application {
     private DemoObject demoObject;
 
     @Autowired
-    private DemoBean demoBean;
+    private DemoDisposableBean demoBean;
     @Autowired
     private ConfigurationBean configurationBean;
+    @Autowired
+    private MyExitCodeGenerator myExitCodeGenerator;
+
+    private static ConfigurableApplicationContext context ;
 
     @RequestMapping("/")
     String home(){
-//        ApplicationContext context = new AnnotationConfigApplicationContext(DemoConfiguration.class);
+         context = new AnnotationConfigApplicationContext(DemoConfiguration.class);
 //        context.getBeanDefinitionNames();
 //        DemoConfiguration demoConfiguration = context.getBean(DemoConfiguration.class);
 //
@@ -55,11 +58,23 @@ public class Application {
         return "Hello! Home page <br>" + (Objects.isNull(demoObject) ? "未加载字符串" : demoObject.getTip() + "<br> Object地址：" +demoObject) +"<br>" + configurationBean;
     }
 
+    @RequestMapping("/exit")
+    public void exit(){
+        if(context != null){
+            System.exit(SpringApplication.exit(context, myExitCodeGenerator));
+            System.out.println("SpringBoot exit success");
+        }
+        else{
+            System.out.println("ConfigurableApplicationContext is null");
+        }
+    }
+
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(Application.class);
-//        application.setBannerMode(Banner.Mode.OFF); //关闭banner
+        application.setBannerMode(Banner.Mode.OFF); //关闭banner
         application.run(args);
         application.setWebApplicationType(WebApplicationType.SERVLET);
+//        System.exit(SpringApplication.exit(SpringApplication.run(Application.class, args)));
 
     }
 
