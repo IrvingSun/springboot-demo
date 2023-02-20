@@ -1,6 +1,9 @@
 package cn.sunway;
 
-import cn.sunway.config.*;
+import cn.sunway.config.ConfigurationBean;
+import cn.sunway.config.DemoDisposableBean;
+import cn.sunway.config.DemoObject;
+import cn.sunway.config.MyExitCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
@@ -8,7 +11,6 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,12 +37,12 @@ public class Application {
     private ConfigurationBean configurationBean;
     @Autowired
     private MyExitCodeGenerator myExitCodeGenerator;
-
-    private static ConfigurableApplicationContext context ;
+    @Autowired
+    private ConfigurableApplicationContext context ;
 
     @RequestMapping("/")
     String home(){
-         context = new AnnotationConfigApplicationContext(DemoConfiguration.class);
+//         context = new AnnotationConfigApplicationContext(DemoConfiguration.class);
 //        context.getBeanDefinitionNames();
 //        DemoConfiguration demoConfiguration = context.getBean(DemoConfiguration.class);
 //
