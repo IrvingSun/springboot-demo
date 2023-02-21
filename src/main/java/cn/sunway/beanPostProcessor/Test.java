@@ -1,4 +1,4 @@
-package cn.sunway.postProcessor;
+package cn.sunway.beanPostProcessor;
 
 import cn.sunway.bean.User;
 import cn.sunway.importSelector.DemoImportBeanDefinitionRegistrar;
