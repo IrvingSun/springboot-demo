@@ -1,5 +1,6 @@
 package cn.sunway;
 
+import cn.sunway.bean.User;
 import cn.sunway.config.ConfigurationBean;
 import cn.sunway.config.DemoDisposableBean;
 import cn.sunway.config.DemoObject;
@@ -38,10 +39,10 @@ public class Application {
     @Autowired
     private MyExitCodeGenerator myExitCodeGenerator;
     @Autowired
-    private ConfigurableApplicationContext context ;
+    private ConfigurableApplicationContext context;
 
     @RequestMapping("/")
-    String home(){
+    String home() {
 //         context = new AnnotationConfigApplicationContext(DemoConfiguration.class);
 //        context.getBeanDefinitionNames();
 //        DemoConfiguration demoConfiguration = context.getBean(DemoConfiguration.class);
@@ -57,16 +58,16 @@ public class Application {
 
         System.out.println(demoBean.toString());
 
-        return "Hello! Home page <br>" + (Objects.isNull(demoObject) ? "未加载字符串" : demoObject.getTip() + "<br> Object地址：" +demoObject) +"<br>" + configurationBean;
+        return "Hello! Home page <br>" + (Objects.isNull(demoObject) ? "未加载字符串" : demoObject.getTip() + "<br> Object地址：" + demoObject) + "<br>" + configurationBean
+                ;
     }
 
     @RequestMapping("/exit")
-    public void exit(){
-        if(context != null){
+    public void exit() {
+        if (context != null) {
             System.exit(SpringApplication.exit(context, myExitCodeGenerator));
             System.out.println("SpringBoot exit success");
-        }
-        else{
+        } else {
             System.out.println("ConfigurableApplicationContext is null");
         }
     }
@@ -74,10 +75,11 @@ public class Application {
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(Application.class);
         application.setBannerMode(Banner.Mode.OFF); //关闭banner
-        application.run(args);
+        ConfigurableApplicationContext applicationContext = application.run(args);
         application.setWebApplicationType(WebApplicationType.SERVLET);
 //        System.exit(SpringApplication.exit(SpringApplication.run(Application.class, args)));
-
+        User user = applicationContext.getBean(User.class);
+        System.out.println("++++++>User对象为：" + user);
     }
 
 }

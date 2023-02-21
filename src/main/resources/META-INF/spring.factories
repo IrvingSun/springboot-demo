@@ -1,5 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-cn.sunway.config.DemoConfiguration
+cn.sunway.config.DemoConfiguration,\
+cn.sunway.configuration.MyAutoConfiguration
 
 # Initializers
 org.springframework.context.ApplicationContextInitializer=\
@@ -15,3 +16,6 @@ org.springframework.boot.diagnostics.FailureAnalyzer=\
 
 org.springframework.context.ApplicationListener=\
   cn.sunway.config.DemoApplicationListener
+
+cn.sunway.configuration.MyEnableAutoConfiguration=\
+  cn.sunway.bean.User
