@@ -58,7 +58,8 @@ public class Application {
 
         System.out.println(demoBean.toString());
 
-        return "Hello! Home page <br>" + (Objects.isNull(demoObject) ? "未加载字符串" : demoObject.getTip() + "<br> Object地址：" + demoObject) + "<br>" + configurationBean
+        return "Hello! Home page <br>" + (Objects.isNull(demoObject) ? "未加载字符串" :
+                demoObject.getTip() + " | " + demoObject.getName() +"<br> Object地址：" + demoObject) + "<br>" + configurationBean
                 ;
     }
 
@@ -78,8 +79,13 @@ public class Application {
         ConfigurableApplicationContext applicationContext = application.run(args);
         application.setWebApplicationType(WebApplicationType.SERVLET);
 //        System.exit(SpringApplication.exit(SpringApplication.run(Application.class, args)));
-        User user = applicationContext.getBean(User.class);
-        System.out.println("++++++>User对象为：" + user);
+        try {
+            User user = applicationContext.getBean(User.class);
+            System.out.println("++++++>User对象为：" + user);
+        } catch (Exception e) {
+            System.err.println("获取User对象失败");
+        }
+
     }
 
 }

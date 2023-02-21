@@ -19,3 +19,6 @@ org.springframework.context.ApplicationListener=\
 
 cn.sunway.configuration.MyEnableAutoConfiguration=\
   cn.sunway.bean.User
+
+org.springframework.boot.env.PropertySourceLoader=\
+  cn.sunway.propertySourceLoader.DemoJsonPropertyLoader

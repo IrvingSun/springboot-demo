@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 public class DemoObject {
     @Value("${demo.object.msg}")
     private String tip;
+    @Value("${json.user.name}")
+    private String name;
     private InnerDemoObject innerDemoObject;
 
     public String getTip() {
@@ -17,6 +19,14 @@ public class DemoObject {
 
     public void setTip(String tip) {
         this.tip = tip;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public InnerDemoObject getInnerDemoObject() {
