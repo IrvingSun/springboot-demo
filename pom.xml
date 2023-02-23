@@ -6,7 +6,11 @@
 
     <groupId>cn.sunway</groupId>
     <artifactId>springboot-demo</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <!--<modules>-->
+        <!--<module>printer-spring-boot-starter</module>-->
+    <!--</modules>-->
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -46,6 +50,12 @@
             <artifactId>hutool-all</artifactId>
             <version>5.4.7</version>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>springboot-demo</groupId>-->
+            <!--<artifactId>param-printer-spring-boot-starter</artifactId>-->
+            <!--<version>1.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 </project>
