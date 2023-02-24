@@ -9,6 +9,6 @@ import org.springframework.context.ApplicationEvent;
 public class FireEvent extends ApplicationEvent{
     public FireEvent(Object source) {
         super(source);
-        System.out.println("着火了！");
+        System.out.println("着火了！- " + source);
     }
 }

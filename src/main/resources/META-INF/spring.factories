@@ -15,7 +15,8 @@ org.springframework.boot.diagnostics.FailureAnalyzer=\
   cn.sunway.config.DemoFailureAnalyzer
 
 org.springframework.context.ApplicationListener=\
-  cn.sunway.config.DemoApplicationListener
+  cn.sunway.config.DemoApplicationListener,\
+  cn.sunway.event.Call119FireEventListener
 
 cn.sunway.configuration.MyEnableAutoConfiguration=\
   cn.sunway.bean.User

@@ -5,16 +5,23 @@ import cn.sunway.config.ConfigurationBean;
 import cn.sunway.config.DemoDisposableBean;
 import cn.sunway.config.DemoObject;
 import cn.sunway.config.MyExitCodeGenerator;
+import cn.sunway.event.Call119FireEventListener;
+import cn.sunway.event.FireEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.web.context.ConfigurableWebServerApplicationContext;
+import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebApplicationContext;
+import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.util.Objects;
 
@@ -78,6 +85,15 @@ public class Application {
         application.setBannerMode(Banner.Mode.OFF); //关闭banner
         ConfigurableApplicationContext applicationContext = application.run(args);
         application.setWebApplicationType(WebApplicationType.SERVLET);
+
+        if(applicationContext instanceof AnnotationConfigApplicationContext){
+            System.out.println("applicationContext instanceof AnnotationConfigApplicationContext");
+        }else if(applicationContext instanceof AnnotationConfigServletWebServerApplicationContext){
+            System.out.println("applicationContext instanceof AnnotationConfigServletWebServerApplicationContext");
+        }
+        AnnotationConfigServletWebServerApplicationContext webServerApplicationContext = (AnnotationConfigServletWebServerApplicationContext) applicationContext;
+
+        System.out.println("configurableWebServerApplicationContext =====>" + webServerApplicationContext);
 //        System.exit(SpringApplication.exit(SpringApplication.run(Application.class, args)));
         try {
             User user = applicationContext.getBean(User.class);
@@ -85,7 +101,13 @@ public class Application {
         } catch (Exception e) {
             System.err.println("获取User对象失败");
         }
+//
+//        webServerApplicationContext.register(Call119FireEventListener.class);
+//        webServerApplicationContext.refresh();
+        applicationContext.publishEvent(new FireEvent("ABC"));
+        webServerApplicationContext.publishEvent(new FireEvent("XXX"));
+
+        System.out.println(applicationContext == WebApplicationContextUtils.getWebApplicationContext(webServerApplicationContext.getServletContext()));
 
     }
-
 }
