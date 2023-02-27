@@ -1,5 +1,6 @@
 package cn.sunway.java8;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -11,7 +12,7 @@ import java.util.function.Supplier;
  * @date 2023/2/24
  */
 public class Test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         //实例化实现类，调用方法
         IMath math = new BasicMath();
         System.out.println(math.add(1, 2));
@@ -50,9 +51,18 @@ public class Test {
         System.out.println(integerSupplier.get().intValue());
 
         System.out.println("---------------------------------");
+        Class<Test> clazz = Test.class;
+        Method method = clazz.getMethod("testAnnotation");
+        MyRepeatableAnnotation[] params = method.getAnnotationsByType(MyRepeatableAnnotation.class);
+        System.out.println("MyRepeatableAnnotation length -> " + params.length);
 
-       //
+        System.out.println("---------------------------------");
 
+    }
+    @MyRepeatableAnnotation("hello")
+    @MyRepeatableAnnotation("java8")
+    public void testAnnotation(){
+        System.out.println("可重复注解测试...");
     }
 
     static void testMath(IMath iMath, int a, int b){
