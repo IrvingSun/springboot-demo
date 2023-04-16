@@ -1,5 +1,7 @@
 package cn.sunway.juc;
 
+import sun.misc.Contended;
+
 /**
  * 高速缓存行
  * 缓存行，如果数据不合理，将带来效率下降问题
@@ -13,7 +15,7 @@ package cn.sunway.juc;
 public class FakeLineShareExample implements Runnable{
     public final static long ITERATIONS = 500L * 1000L * 1000L;
     private int arrayIndex = 0 ;
-    private static ValuePadding longs[];
+    private static ValueNoPadding longs[];
 
     public FakeLineShareExample(int arrayIndex) {
         this.arrayIndex = arrayIndex;
@@ -30,9 +32,9 @@ public class FakeLineShareExample implements Runnable{
 
     private static void  runTest(int NUM_THREADS)throws InterruptedException{
        Thread[] threads = new Thread[NUM_THREADS];
-       longs = new ValuePadding[NUM_THREADS];
+       longs = new ValueNoPadding[NUM_THREADS];
        for(int i = 0; i<longs.length; i++){
-           longs[i] = new ValuePadding();
+           longs[i] = new ValueNoPadding();
        }
        for(int i = 0; i < threads.length; i++){
            threads[i] = new Thread(new FakeLineShareExample(i));
@@ -59,6 +61,7 @@ public class FakeLineShareExample implements Runnable{
         protected  long p9, p10, p11, p12, p13, p14, p15;
     }
 
+    @Contended
     public final static class ValueNoPadding{
         protected  long value = 0;
     }
