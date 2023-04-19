@@ -7,23 +7,29 @@ import cn.sunway.config.DemoObject;
 import cn.sunway.config.MyExitCodeGenerator;
 import cn.sunway.event.Call119FireEventListener;
 import cn.sunway.event.FireEvent;
+import cn.sunway.thread.ThreadPoolConfigurationProperties;
+import cn.sunway.thread.ThreadPoolExecutorMonitor;
+import cn.sunway.thread.ThreadPoolForMonitorManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.context.ConfigurableWebServerApplicationContext;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebApplicationContext;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import java.util.Objects;
+import java.util.Random;
 
 /**
  * @author sunw
@@ -31,9 +37,10 @@ import java.util.Objects;
  */
 @RestController
 //@SpringBootApplication
-@SpringBootConfiguration
+@SpringBootConfiguration()
 @EnableAutoConfiguration
 @ComponentScan(basePackages = "cn.sunway")
+@EnableConfigurationProperties(ThreadPoolConfigurationProperties.class)
 public class Application {
 
     @Autowired(required = false)
@@ -47,6 +54,12 @@ public class Application {
     private MyExitCodeGenerator myExitCodeGenerator;
     @Autowired
     private ConfigurableApplicationContext context;
+    @Autowired
+    private ThreadPoolForMonitorManager threadPoolForMonitorManager;
+
+
+    private final String poolName = "first-monitor-thread-pool";
+
 
     @RequestMapping("/")
     String home() {
@@ -66,7 +79,7 @@ public class Application {
         System.out.println(demoBean.toString());
 
         return "Hello! Home page <br>" + (Objects.isNull(demoObject) ? "未加载字符串" :
-                demoObject.getTip() + " | " + demoObject.getName() +"<br> Object地址：" + demoObject) + "<br>" + configurationBean
+                demoObject.getTip() + " | " + demoObject.getName() + "<br> Object地址：" + demoObject) + "<br>" + configurationBean
                 ;
     }
 
@@ -86,9 +99,9 @@ public class Application {
         ConfigurableApplicationContext applicationContext = application.run(args);
         application.setWebApplicationType(WebApplicationType.SERVLET);
 
-        if(applicationContext instanceof AnnotationConfigApplicationContext){
+        if (applicationContext instanceof AnnotationConfigApplicationContext) {
             System.out.println("applicationContext instanceof AnnotationConfigApplicationContext");
-        }else if(applicationContext instanceof AnnotationConfigServletWebServerApplicationContext){
+        } else if (applicationContext instanceof AnnotationConfigServletWebServerApplicationContext) {
             System.out.println("applicationContext instanceof AnnotationConfigServletWebServerApplicationContext");
         }
         AnnotationConfigServletWebServerApplicationContext webServerApplicationContext = (AnnotationConfigServletWebServerApplicationContext) applicationContext;
@@ -110,4 +123,21 @@ public class Application {
         System.out.println(applicationContext == WebApplicationContextUtils.getWebApplicationContext(webServerApplicationContext.getServletContext()));
 
     }
+
+    @GetMapping("/manager")
+    public String doManager(){
+        ThreadPoolExecutorMonitor monitor = threadPoolForMonitorManager.getThreadPoolExecutor(poolName);
+        for(int i = 0; i < 100; i++){
+            monitor.execute(() ->{
+                try {
+                    Thread.sleep(new Random().nextInt(4000));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        return "success";
+    }
+
+
 }
