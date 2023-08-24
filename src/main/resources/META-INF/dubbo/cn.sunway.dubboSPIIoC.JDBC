@@ -1,0 +1,2 @@
+mysql = cn.sunway.dubboSPIIoC.MySQL
+oracle = cn.sunway.dubboSPIIoC.Oracle
