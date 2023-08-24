@@ -31,15 +31,23 @@ public class JavassistDemo2 {
         helloMethod.setBody("System.out.println($1 + \"msg\");");
 
         ctClass.addMethod(helloMethod);
-        //创建Class文件
-        ctClass.writeFile(file);
 
-        //调用Class文件并执行方法
-        ClassPool pool = ClassPool.getDefault();
-        pool.appendClassPath(file);
-        CtClass helloJavassist = pool.get("cn.sunway.javassist.HelloJavassist");
-        Object o = helloJavassist.toClass().newInstance();
-        Method method = o.getClass().getMethod("hello", int.class);
-        method.invoke(o, new Object[]{11});
+        //创建Class文件
+//        ctClass.writeFile(file);
+        //方式1：调用Class文件并执行方法
+//        ClassPool pool = ClassPool.getDefault();
+//        pool.appendClassPath(file);
+//        CtClass helloJavassist = pool.get("cn.sunway.javassist.HelloJavassist");
+//        Object o = helloJavassist.toClass().newInstance();
+//        Method method = o.getClass().getMethod("hello", int.class);
+//        System.out.println("o --->" + o);
+//        method.invoke(o, new Object[]{11});
+
+        //方式2：实时build
+        Class clazz = ctClass.toClass(JavassistDemo2.class.getClassLoader(), JavassistDemo2.class.getProtectionDomain());
+        Object o2 = clazz.newInstance();
+        Method method2 = o2.getClass().getMethod("hello", int.class);
+        System.out.println("o2 --->" + o2);
+        method2.invoke(o2, new Object[]{12});
     }
 }
