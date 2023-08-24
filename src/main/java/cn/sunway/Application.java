@@ -7,9 +7,13 @@ import cn.sunway.config.DemoObject;
 import cn.sunway.config.MyExitCodeGenerator;
 import cn.sunway.event.Call119FireEventListener;
 import cn.sunway.event.FireEvent;
+import cn.sunway.sentinel.TargetMethod;
 import cn.sunway.thread.ThreadPoolConfigurationProperties;
 import cn.sunway.thread.ThreadPoolExecutorMonitor;
 import cn.sunway.thread.ThreadPoolForMonitorManager;
+import com.alibaba.csp.sentinel.slots.block.RuleConstant;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
+import com.alibaba.csp.sentinel.slots.block.flow.FlowRuleManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
@@ -28,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -56,6 +62,8 @@ public class Application {
     private ConfigurableApplicationContext context;
     @Autowired
     private ThreadPoolForMonitorManager threadPoolForMonitorManager;
+    @Autowired
+    private TargetMethod targetMethod;
 
 
     private final String poolName = "first-monitor-thread-pool";
@@ -121,6 +129,7 @@ public class Application {
         webServerApplicationContext.publishEvent(new FireEvent("XXX"));
 
         System.out.println(applicationContext == WebApplicationContextUtils.getWebApplicationContext(webServerApplicationContext.getServletContext()));
+        intiFlowRules();
 
     }
 
@@ -139,5 +148,20 @@ public class Application {
         return "success";
     }
 
+    @RequestMapping("/limit")
+    String limit() {
+        while (true){
+            targetMethod.findUserName(String.valueOf(System.currentTimeMillis()));
+        }
+    }
 
+    private static void intiFlowRules() {
+        List<FlowRule> rules = new ArrayList();
+        FlowRule rule = new FlowRule();
+        rule.setResource("findUserName");
+        rule.setGrade(RuleConstant.FLOW_GRADE_QPS);
+        rule.setCount(20);
+        rules.add(rule);
+        FlowRuleManager.loadRules(rules);
+    }
 }

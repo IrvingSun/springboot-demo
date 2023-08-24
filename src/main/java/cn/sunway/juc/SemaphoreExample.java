@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class SemaphoreExample {
 
     public static void main(String[] args) {
-        Semaphore semaphore = new Semaphore(1);
+        Semaphore semaphore = new Semaphore(2);
         ExecutorService service = Executors.newCachedThreadPool();
         for(int i= 0; i <100; i++){
             service.execute(new SomeTask(semaphore));

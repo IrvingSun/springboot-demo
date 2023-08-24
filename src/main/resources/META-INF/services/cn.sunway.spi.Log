@@ -1,0 +1,3 @@
+log4J=cn.sunway.spi.Log4J
+logback=cn.sunway.spi.Logback
+# cn.sunway.spi.LogWrapper

@@ -1,0 +1,39 @@
+package cn.sunway.nio;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+
+public class ZeroCopyExample {
+    public static void main(String[] args) {
+        String sourceFile = "source.txt";
+        String destFile = "destination.txt";
+
+        try (FileInputStream fis = new FileInputStream(sourceFile);
+             FileOutputStream fos = new FileOutputStream(destFile);
+             FileChannel sourceChannel = fis.getChannel();
+             FileChannel destChannel = fos.getChannel()) {
+
+            // 使用直接内存分配一个ByteBuffer
+            ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
+
+            while (sourceChannel.read(buffer) != -1) {
+                // 切换读模式为写模式
+                buffer.flip();
+
+                // 将数据从源通道传输到目标通道，实现零拷贝
+                destChannel.write(buffer);
+
+                // 清空缓冲区，为下一次读取做准备
+                buffer.clear();
+            }
+
+            System.out.println("文件复制完成。");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
