@@ -5,6 +5,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -21,8 +22,8 @@ public class ConsumerFastStart {
 
     public static void main(String[] args) {
         Properties properties = new Properties();
-        properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        properties.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        properties.put("key.deserializer", StringSerializer.class.getName());
+        properties.put("value.deserializer", StringSerializer.class.getName());
         properties.put("bootstrap.servers", bootStrap);
         properties.put("group.id", group);
 
