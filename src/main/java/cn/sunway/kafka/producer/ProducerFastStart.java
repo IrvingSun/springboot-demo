@@ -6,6 +6,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 
+import java.time.LocalDateTime;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -27,7 +28,7 @@ public class ProducerFastStart {
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
-        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "中文消息-DEMO ~");
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic, "中文消息-DEMO ~ " + LocalDateTime.now());
 
         Future<RecordMetadata> future = producer.send(record);
         try {
