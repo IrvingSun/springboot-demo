@@ -1,13 +1,9 @@
 package cn.sunway.kafka.consumer;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.consumer.OffsetAndMetadata;
+import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -25,13 +21,14 @@ public class ConsumerAnalysis {
     public static final AtomicBoolean isRunning = new AtomicBoolean(true);
 
 
-    public static Properties initConfig(){
+    public static Properties initConfig() {
         Properties properties = new Properties();
         properties.put("key.deserializer", StringDeserializer.class.getName());
         properties.put("value.deserializer", StringDeserializer.class.getName());
         properties.put("bootstrap.servers", bootStrap);
         properties.put("group.id", group);
         properties.put("client.id", "consumer.client.id.demo");
+        properties.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, ConsumerInterceptorTTL.class.getName());
         return properties;
     }
 
