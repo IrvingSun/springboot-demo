@@ -18,7 +18,8 @@ import java.util.concurrent.Future;
 public class ProducerFastStart {
 
     public static String brokerList = "localhost:9092";
-    public static String topic = "topic-demo";
+    public static String topic = "my-topic-2";
+//    public static String topic = "topic-demo";
 
     public static void main(String[] args) {
         Properties properties = new Properties();
